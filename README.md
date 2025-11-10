@@ -1,42 +1,41 @@
-# Spec Presets - AI 辅助开发规范套件
+# Qoder Rules - Spec Coding Design Patterns
 
-完整的代码规范和模板系统，用于提升 AI 辅助开发的代码质量和一致性。
+完整的代码规范和模板系统，用于提升 AI 辅助开发的代码质量和一致性、遵循云与AI卓越架构、遵循最佳实践和开发范式。
 
 ## 📦 目录结构
 
 ```
-spec-presets/
+qoder-rules/
 ├── core/                          # 核心规范（必需）
-│   ├── requirements-spec.txt      # 开发需求规范（13条规则）
-│   ├── requirements-spec.zh-CN.txt
-│   ├── workflow-spec.txt          # 工作流规范（12条规则）
-│   ├── workflow-spec.zh-CN.txt
-│   ├── naming-conventions.txt     # 命名约定（12条约定）
-│   ├── naming-conventions.zh-CN.txt
-│   ├── spec-index.txt             # 中心索引和配置
-│   └── spec-index.zh-CN.txt
+│   ├── requirements-spec.md       # 开发需求规范（13条规则）
+│   ├── requirements-spec.zh-CN.md
+│   ├── workflow-spec.md           # 工作流规范（12条规则）
+│   ├── workflow-spec.zh-CN.md
+│   ├── naming-conventions.md      # 命名约定（12条约定）
+│   ├── naming-conventions.zh-CN.md
+│   ├── spec-index.md              # 中心索引和配置
+│   └── spec-index.zh-CN.md
 │
 ├── quality/                       # 质量保证规范（推荐）
-│   ├── testing-spec.zh-CN.txt    # 测试规范（12条规则）
-│   ├── security-spec.zh-CN.txt   # 安全规范（12条规则）
-│   └── error-handling-spec.zh-CN.txt  # 错误处理规范（12条规则）
+│   ├── testing-spec.zh-CN.md     # 测试规范（12条规则）
+│   ├── security-spec.zh-CN.md    # 安全规范（12条规则）
+│   └── error-handling-spec.zh-CN.md  # 错误处理规范（12条规则）
 │
 ├── architecture/                  # 架构设计规范（可选）
-│   ├── api-design-spec.txt       # API 设计规范
-│   └── database-spec.txt         # 数据库规范
+│   ├── alibaba-cloud-ai-spec.zh-CN.md  # 阿里云AI架构规范（12条规则）
+│   └── api-design-spec.zh-CN.md        # API 设计规范
 │
-├── templates/                     # 快速启动模板
-│   ├── web-starter/              # Web 应用脚手架
-│   ├── cli-starter/              # CLI 工具脚手架
-│   └── library-starter/          # 库/SDK 脚手架
+├── process/                       # 流程规范
+│   └── git-workflow-spec.zh-CN.md     # Git 工作流规范
+│
+├── operations/                    # 运维规范
+│   └── deployment-spec.zh-CN.md       # 部署规范
 │
 ├── tools/                         # 规范验证工具
 │   ├── spec-lint.py              # 规范检查工具
 │   └── spec-report.js            # 合规报告生成器
 │
-└── ide-integration/               # IDE 集成配置
-    ├── .vscode/settings.json     # VS Code 配置
-    └── .editorconfig             # 编辑器通用配置
+└── README.md                      # 本文件
 ```
 
 ## 🚀 快速开始
@@ -45,38 +44,30 @@ spec-presets/
 
 ```bash
 # 克隆整个仓库
-git clone <repository-url>
-
-# 或使用 sparse checkout 只下载 spec-presets
-git sparse-checkout set spec-presets
+git clone https://github.com/your-repo/qoder-rules.git
+cd qoder-rules
 ```
 
-### 2. 选择项目模板
+### 2. 在 Qoder IDE 中使用
 
-根据项目类型选择合适的模板：
+将规范文件复制到项目的 `.qoder/rules` 目录：
 
 ```bash
-# Web 应用
-cd spec-presets/templates/web-starter
-npm install
-npm run dev
-
-# CLI 工具
-cd spec-presets/templates/cli-starter
-python cli.py --items "test"
-
-# 库/SDK
-cd spec-presets/templates/library-starter
-npm install
-npm run build
+# 复制核心规范
+mkdir -p .qoder/rules
+cp core/*.md .qoder/rules/
+cp quality/*.md .qoder/rules/
+cp architecture/*.md .qoder/rules/
 ```
 
 ### 3. 在 AI 对话中引用规范
 
+在 Qoder IDE 或其他 AI 辅助开发工具中：
+
 ```
-@spec-presets/core/requirements-spec.zh-CN.txt
-@spec-presets/quality/testing-spec.zh-CN.txt
-@spec-presets/core/spec-index.zh-CN.txt
+@core/requirements-spec.zh-CN.md
+@quality/testing-spec.zh-CN.md
+@architecture/alibaba-cloud-ai-spec.zh-CN.md
 
 请生成一个用户登录功能，严格遵循这些规范。
 ```
@@ -160,10 +151,10 @@ quality/error-handling-spec.txt  [启用 RULE 1,2,5,6,10,12]
 
 ```bash
 # 检查当前目录
-python spec-presets/tools/spec-lint.py
+python tools/spec-lint.py
 
 # 指定目录
-python spec-presets/tools/spec-lint.py --target-dir ./src --spec-dir ./spec-presets/core
+python tools/spec-lint.py --target-dir ./src --spec-dir ./core
 
 # 输出示例:
 # 🔍 检查目录: ./src
@@ -176,10 +167,10 @@ python spec-presets/tools/spec-lint.py --target-dir ./src --spec-dir ./spec-pres
 
 ```bash
 # 生成报告
-node spec-presets/tools/spec-report.js
+node tools/spec-report.js
 
 # 保存为 JSON
-node spec-presets/tools/spec-report.js --output compliance-report.json
+node tools/spec-report.js --output compliance-report.json
 
 # 输出示例:
 # 📋 规范遵守情况报告
@@ -189,34 +180,43 @@ node spec-presets/tools/spec-report.js --output compliance-report.json
 
 ## 🎨 IDE 集成
 
-### VS Code
+### Qoder IDE
 
-复制配置文件到项目根目录：
+规范文件支持 `trigger: manual` frontmatter，可直接在 `.qoder/rules` 目录中使用：
 
-```bash
-cp spec-presets/ide-integration/.vscode/settings.json .vscode/
-cp spec-presets/ide-integration/.editorconfig .
+```yaml
+---
+trigger: manual
+---
 ```
+
+在对话中使用 `@` 符号引用规范文件。
+
+### VS Code
 
 推荐安装的扩展：
 
 - ESLint - 代码检查
 - Prettier - 代码格式化
 - EditorConfig - 编辑器配置
-- Todo Tree - TODO 高亮
+- GitHub Copilot - AI代码助手
 
-### 其他编辑器
+### 其他 AI 编辑器
 
-所有支持 EditorConfig 的编辑器都可以使用 `.editorconfig` 文件。
+- Cursor
+- Continue
+- Codeium
+
+所有支持文件引用的 AI 编辑器都可以使用这些规范。
 
 ## 📚 使用示例
 
 ### 示例 1: 生成符合规范的登录页面
 
 ```
-@spec-presets/core/requirements-spec.zh-CN.txt
-@spec-presets/quality/security-spec.zh-CN.txt
-@spec-presets/quality/error-handling-spec.zh-CN.txt
+@core/requirements-spec.zh-CN.md
+@quality/security-spec.zh-CN.md
+@quality/error-handling-spec.zh-CN.md
 
 生成一个登录页面，包含：
 1. 邮箱和密码输入
@@ -225,20 +225,24 @@ cp spec-presets/ide-integration/.editorconfig .
 4. 安全的密码处理
 ```
 
-### 示例 2: 生成 CLI 工具
+### 示例 2: 基于阿里云AI构建应用
 
 ```
-@spec-presets/core/requirements-spec.zh-CN.txt
-@spec-presets/templates/cli-starter/cli.py
+@architecture/alibaba-cloud-ai-spec.zh-CN.md
+@core/requirements-spec.zh-CN.md
 
-参考 cli.py 的模式，生成一个文件批处理工具。
+参考MBTI项目的实现，使用通义千问构建一个智能问答系统。
+要求：
+- 使用规则3（大模型调用）
+- 实施规则9（成本优化）
+- 遵循规则7（监控日志）
 ```
 
 ### 示例 3: 添加单元测试
 
 ```
-@spec-presets/quality/testing-spec.zh-CN.txt
-@spec-presets/core/naming-conventions.zh-CN.txt
+@quality/testing-spec.zh-CN.md
+@core/naming-conventions.zh-CN.md
 
 为 UserService 类生成单元测试，确保：
 - 覆盖率 > 85%
@@ -255,7 +259,7 @@ cp spec-presets/ide-integration/.editorconfig .
 ```bash
 #!/bin/bash
 # 提交前检查规范
-python spec-presets/tools/spec-lint.py
+python tools/spec-lint.py
 if [ $? -ne 0 ]; then
   echo "规范检查失败，请修复后再提交"
   exit 1
@@ -278,15 +282,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run spec lint
-        run: python spec-presets/tools/spec-lint.py
+        run: python tools/spec-lint.py
       - name: Generate compliance report
-        run: node spec-presets/tools/spec-report.js --output report.json
+        run: node tools/spec-report.js --output report.json
       - name: Upload report
         uses: actions/upload-artifact@v3
         with:
           name: compliance-report
           path: report.json
 ```
+
+### 应用的规范
+
+- ✅ 规则3: 大模型调用与管理（通义千问）
+- ✅ 规则7: 监控与可观测性（日志记录）
+- ✅ 规则8: 数据安全与合规（数据脱敏）
+- ✅ 规则9: 成本优化（缓存机制）
+
 
 ## 📊 规范统计
 
@@ -298,8 +310,37 @@ jobs:
 | testing-spec | 12 | 9 | All |
 | security-spec | 12 | 11 | Web, API |
 | error-handling-spec | 12 | 11 | All |
+| alibaba-cloud-ai-spec | 12 | 10 | AI Applications |
+| git-workflow-spec | 10 | 8 | All |
+| deployment-spec | 10 | 8 | Production |
+| api-design-spec | 10 | 7 | API Projects |
 
-**总计**: 73 条规则，覆盖代码质量、安全、测试、工作流等各个方面。
+**总计**: 100+ 条规则，覆盖代码质量、安全、测试、工作流、AI架构等各个方面。
+
+## 🌟 特色功能
+
+### 1. 支持 Qoder IDE Rules
+
+所有规范文件包含 frontmatter 元数据，可直接作为 Qoder IDE 的 Rules 使用：
+
+```yaml
+---
+trigger: manual
+---
+```
+
+### 2. 阿里云 AI 架构规范
+
+提供完整的阿里云 AI 应用架构最佳实践：
+- 通义千问集成
+- DashVector 向量检索
+- PAI 模型部署
+- SLS 日志监控
+- 成本优化策略
+
+### 3. 中英双语支持
+
+核心规范提供中英文版本，方便不同团队使用。
 
 ## 🤝 贡献
 
